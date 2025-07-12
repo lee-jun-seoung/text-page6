@@ -30,7 +30,7 @@
         
         /* --- 시작 화면 스타일 --- */
         #start-screen {
-            display: flex;
+            display: flex; /* 기본으로 보임 */
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -52,13 +52,12 @@
 
         /* --- 게임 컨테이너 스타일 --- */
         #game-container {
-            display: none;
+            display: none; /* 시작 시 숨김 */
             width: 95%;
             max-width: 900px;
             text-align: center;
         }
         
-        /* ★★★ 타이머 표시 스타일 추가 ★★★ */
         #timer-display {
             font-size: 2em;
             font-weight: bold;
@@ -77,7 +76,8 @@
         /* --- 모달 공통 스타일 --- */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-        .modal-content { background-color: var(--light-color); color: var(--dark-color); padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; text-align: center; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-content { background-color: var(--light-color); color: var(--dark-color); padding: 30px; border-radius: 10px; width: 90%; max-width: 500px; text-align: center; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .modal-content h2 { margin-top: 0; color: var(--primary-color); }
         .modal-content input { font-size: 1.1em; padding: 10px; margin: 10px 0; width: 80%; text-align: center; }
         .modal-content button { font-size: 1.1em; padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; background-color: var(--primary-color); color: white; }
@@ -103,76 +103,63 @@
     </div>
 
     <div id="game-container">
-        <!-- ★★★ 타이머 표시 영역 추가 ★★★ -->
         <div id="timer-display">00:00</div>
-        
         <h1>[안전교육] 물놀이 교실을 탈출하라!</h1>
         <p>교실의 여러 사물을 터치하여 안전 수칙을 배우고, 3자리 비밀번호를 찾아 문을 열고 탈출하세요.</p>
-
         <div id="room">
-            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop" alt="교실 이미지">
+            <!-- ★★★ 이미지 URL 및 오브젝트 위치 최종 수정 ★★★ -->
+            <img src="https://github.com/lee-jun-seoung/text-page6/blob/main/Whisk_storyboard67da2e89d25144d4bb9ce11a%20(1).png?raw=true" alt="교실 이미지">
             
-            <div class="clickable-object" id="obj-monitor" data-modal="modal-monitor" style="top: 25%; left: 24%; width: 52%; height: 40%;"></div>
-            <div class="clickable-object" id="obj-speaker" data-modal="modal-speaker" style="top: 3%; left: 3%; width: 10%; height: 18%;"></div>
-            <div class="clickable-object" id="obj-pencil" data-modal="modal-pencil" style="top: 73%; left: 45%; width: 10%; height: 10%;"></div>
-            <div class="clickable-object" id="obj-door" data-modal="modal-password" style="top: 15%; left: 81%; width: 18%; height: 75%;"></div>
+            <!-- 모니터 -->
+            <div class="clickable-object" id="obj-monitor" data-modal="modal-monitor" style="top: 42%; left: 17%; width: 16%; height: 25%;"></div>
+            <!-- 스피커 -->
+            <div class="clickable-object" id="obj-speaker" data-modal="modal-speaker" style="top: 14%; left: 78%; width: 12%; height: 12%;"></div>
+            <!-- 필통 -->
+            <div class="clickable-object" id="obj-pencil" data-modal="modal-pencil" style="top: 63%; left: 68%; width: 7%; height: 16%;"></div>
+            <!-- 교실문 -->
+            <div class="clickable-object" id="obj-door" data-modal="modal-password" style="top: 24%; left: 91%; width: 9%; height: 60%;"></div>
         </div>
     </div>
 
     <!-- 모달 팝업창들... -->
     <div id="modal-speaker" class="modal"><div class="modal-content"><span class="close-button">×</span><h2>스피커에서 안내방송이 나온다.</h2><p>"물놀이 전, 충분한 준비운동은 필수! 심장에서 먼 곳부터 천천히~ 준비운동은 최소 몇 분 이상 해야 할까요?"</p><input type="text" id="answer-speaker" placeholder="숫자만 입력"><button class="submit-answer" data-puzzle="speaker">확인</button></div></div>
     <div id="modal-pencil" class="modal"><div class="modal-content"><span class="close-button">×</span><h2>책상 위 필통에 쪽지가 있다.</h2><p>"물에 빠진 사람을 발견했을 때, 가장 먼저 할 일은 큰 소리로 주변에 알리고 OOO에 신고하는 것입니다. OOO에 들어갈 번호는?"</p><input type="text" id="answer-pencil" placeholder="숫자만 입력"><button class="submit-answer" data-puzzle="pencil">확인</button></div></div>
-    <div id="modal-monitor" class="modal"><div class="modal-content"><span class="close-button">×</span><h2>칠판에 무언가 나타났다!</h2><p>안전 수칙 아이콘을 기억해서 짝을 맞춰보세요!</p><div id="memory-game-board"></div><p id="memory-game-message"></p></div></div>
+    <div id="modal-monitor" class="modal"><div class="modal-content"><span class="close-button">×</span><h2>모니터 전원이 켜졌다!</h2><p id="memory-game-message">안전 수칙 아이콘을 기억해서 짝을 맞춰보세요!</p><div id="memory-game-board"></div></div></div>
     <div id="modal-password" class="modal"><div class="modal-content"><span class="close-button">×</span><h2>교실 문</h2><p>3자리 비밀번호를 입력하고 탈출하세요.</p><input type="text" id="passcode-input" placeholder="비밀번호 3자리" maxlength="3" pattern="\d*"><button id="escape-button">탈출</button></div></div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- 시작 화면 로직 ---
         const startScreen = document.getElementById('start-screen');
         const startButton = document.getElementById('start-button');
         const userInfoInput = document.getElementById('user-info-input');
         const gameContainer = document.getElementById('game-container');
-        
-        // ★★★ 타이머 관련 변수 추가 ★★★
         const timerDisplay = document.getElementById('timer-display');
         let timerInterval;
         let startTime;
 
         startButton.addEventListener('click', () => {
-            const userInfo = userInfoInput.value.trim();
-            if (userInfo === '') {
+            if (userInfoInput.value.trim() === '') {
                 alert('반과 번호를 입력해주세요!');
                 return;
             }
-            console.log(`참가자: ${userInfo}`);
             startScreen.style.display = 'none';
             gameContainer.style.display = 'block';
-            
-            // ★★★ 타이머 시작 함수 호출 ★★★
             startTimer();
         });
 
-        // ★★★ 타이머 시작 함수 ★★★
         function startTimer() {
-            startTime = Date.now(); // 시작 시간 기록
-            timerInterval = setInterval(updateTimer, 1000); // 1초마다 업데이트
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
         }
         
-        // ★★★ 타이머 업데이트 함수 ★★★
         function updateTimer() {
-            const elapsedTime = Date.now() - startTime;
-            const totalSeconds = Math.floor(elapsedTime / 1000);
+            const totalSeconds = Math.floor((Date.now() - startTime) / 1000);
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
-
-            // MM:SS 형식으로 포맷팅 (예: 01:05)
-            timerDisplay.textContent = 
-                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-
-        // --- 기존 게임 로직 ---
         const FINAL_PASSCODE = '220'; 
         const PUZZLES = {
             speaker: { answer: '10', hint: '0', solved: false },
@@ -195,12 +182,6 @@
             btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active'));
         });
         
-        window.addEventListener('click', (e) => {
-            modals.forEach(modal => {
-                if (e.target === modal) modal.classList.remove('active');
-            });
-        });
-
         document.querySelectorAll('.submit-answer').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const puzzleId = e.target.dataset.puzzle;
@@ -237,6 +218,8 @@
         function createBoard() {
             gameBoard.innerHTML = '';
             matchedPairs = 0;
+            hasFlippedCard = false;
+            lockBoard = false;
             shuffle(cardEmojis);
             cardEmojis.forEach(emoji => {
                 const card = document.createElement('div');
@@ -251,13 +234,25 @@
         function shuffle(array) { array.sort(() => Math.random() - 0.5); }
         function flipCard() { if (lockBoard || this === firstCard || this.classList.contains('matched')) return; this.classList.add('flip'); if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; } secondCard = this; checkForMatch(); }
         function checkForMatch() { lockBoard = true; (firstCard.dataset.emoji === secondCard.dataset.emoji) ? disableCards() : unflipCards(); }
-        function disableCards() { firstCard.classList.add('matched'); secondCard.classList.add('matched'); matchedPairs++; resetBoard(); if (matchedPairs === cardEmojis.length / 2) { gameMessage.textContent = `성공! 비밀번호의 한 숫자는 [${PUZZLES.monitor.hint}] 입니다.`; setTimeout(() => { markAsSolved('monitor'); document.getElementById('modal-monitor').classList.remove('active'); }, 1500); } }
+        
+        function disableCards() {
+            firstCard.classList.add('matched');
+            secondCard.classList.add('matched');
+            matchedPairs++;
+            resetBoard();
+            
+            if (matchedPairs === cardEmojis.length / 2) {
+                gameMessage.innerHTML = `미니게임 성공!<br>모니터 화면에 비밀번호의 한 자리가 나타났습니다: <strong style="color:red; font-size:1.5em;">[${PUZZLES.monitor.hint}]</strong>`;
+                markAsSolved('monitor');
+            }
+        }
+        
         function unflipCards() { setTimeout(() => { firstCard.classList.remove('flip'); secondCard.classList.remove('flip'); resetBoard(); }, 1000); }
         function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
         document.getElementById('obj-monitor').addEventListener('click', () => {
             if (!PUZZLES.monitor.solved) {
-                gameMessage.textContent = '';
+                gameMessage.innerHTML = `안전 수칙 아이콘을 기억해서 짝을 맞춰보세요!`;
                 createBoard();
             }
         });
@@ -267,9 +262,8 @@
             if (userInput === FINAL_PASSCODE) {
                 const allSolved = Object.values(PUZZLES).every(p => p.solved);
                 if (allSolved) {
-                    // ★★★ 타이머 정지 및 최종 시간 표시 ★★★
-                    clearInterval(timerInterval); // 타이머 멈춤
-                    const finalTime = timerDisplay.textContent; // 최종 시간 기록
+                    clearInterval(timerInterval);
+                    const finalTime = timerDisplay.textContent;
                     alert(`정답입니다! 축하합니다, 안전 수칙을 모두 배우고 무사히 탈출했습니다!\n\n총 소요 시간: ${finalTime}`);
                     location.reload();
                 } else {
